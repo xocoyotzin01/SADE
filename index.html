@@ -170,22 +170,93 @@
 
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+
     <script>
-        // --- 1. Lógica del Splash Screen ---
+        // --- 1. Lógica del Splash Screen y Inicio del Tour ---
         window.addEventListener('load', () => {
+            // Esperamos 3.5 segundos para ver la intro elegante
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
+                splash.style.opacity = '0'; // Desvanecer
+                
                 setTimeout(() => {
-                    splash.style.display = 'none';
-                    iniciarTour();
-                    obtenerDatosBanxico(); // Llamamos a la API al iniciar
+                    splash.style.display = 'none'; // Quitar
+                    
+                    // IMPORTANTE: Llamamos a la API y al Tour
+                    obtenerDatosBanxico(); 
+                    iniciarTour(); 
+                    
                 }, 800);
-            }, 3000); 
+            }, 3500); 
         });
 
-        // --- 2. Accesibilidad ---
+        // --- 2. Configuración del Tour (Paso a Paso) ---
+        function iniciarTour() {
+            // Cambié la clave a 'tourVistoV5' para que te fuerce a salir de nuevo hoy
+            if (!localStorage.getItem('tourVistoV5')) { 
+                
+                const driver = window.driver.js.driver;
+                const driverObj = driver({
+                    showProgress: true,
+                    animate: true,
+                    nextBtnText: 'Siguiente →',
+                    prevBtnText: '← Atrás', 
+                    doneBtnText: '¡Comenzar!',
+                    steps: [
+                        { 
+                            element: '.system-title', 
+                            popover: { 
+                                title: 'Bienvenido al SADE', 
+                                description: 'Tu nueva plataforma centralizada de inteligencia económica y fiscal.',
+                                side: "bottom", align: 'start'
+                            } 
+                        },
+                        { 
+                            element: '.ticker-wrap', 
+                            popover: { 
+                                title: 'Datos en Tiempo Real', 
+                                description: 'Aquí verás el Dólar, Mezcla MX y Tasas actualizados al día automáticamente.',
+                                side: "bottom"
+                            } 
+                        },
+                        { 
+                            element: '#tour-search', 
+                            popover: { 
+                                title: 'Motor de Análisis', 
+                                description: 'Usa este buscador para encontrar cualquier indicador o concepto rápidamente.',
+                                side: "bottom"
+                            } 
+                        },
+                        { 
+                            element: '.position-left-1', 
+                            popover: { 
+                                title: 'Columna Hacendaria', 
+                                description: 'De este lado tienes Ingresos (SAIP), Gasto (SAGP) y Renuncias Recaudatorias.',
+                                side: "right"
+                            } 
+                        },
+                        { 
+                            element: '.position-right-3', 
+                            popover: { 
+                                title: 'NUEVO: Módulo Estatal', 
+                                description: 'Consulta los indicadores económicos más relevantes por Entidad Federativa aquí.',
+                                side: "left"
+                            } 
+                        }
+                    ],
+                    onDestroyStarted: () => {
+                         // Guarda que ya lo viste para no molestar la próxima vez
+                         localStorage.setItem('tourVistoV5', 'true');
+                         driverObj.destroy();
+                    }
+                });
+                
+                driverObj.drive();
+            }
+        }
+
+        // --- 3. Accesibilidad (Tamaño de letra) ---
         let currentFontSize = 16;
         function changeFontSize(change) {
             currentFontSize += change;
@@ -194,51 +265,26 @@
             document.documentElement.style.fontSize = currentFontSize + 'px';
         }
 
-        // --- 3. Búsqueda Rápida ---
+        // --- 4. Funcionalidad del Buscador ---
         document.getElementById('globalSearch').addEventListener('keyup', function(event) {
             if (event.key === 'Enter') {
                 const term = this.value.toLowerCase();
-                if(term.includes('isr') || term.includes('petrol')) {
+                // Lógica de redirección inteligente
+                if(term.includes('ingreso') || term.includes('isr')) {
                     window.location.href = 'https://xocoyotzin01.github.io/SAIP/';
-                } else if(term.includes('gasto')) {
+                } else if(term.includes('gasto') || term.includes('ramo')) {
                      window.location.href = 'https://xocoyotzin01.github.io/SAGP/';
                 } else {
-                    alert(`Buscando "${this.value}"... (Demo)`);
+                    alert(`Buscando "${this.value}" en todas las bases de datos...`);
                 }
             }
         });
 
-        // --- 4. Tour ---
-        function iniciarTour() {
-            if (!localStorage.getItem('tourVistoV4')) { 
-                const driver = window.driver.js.driver;
-                const driverObj = driver({
-                    showProgress: true,
-                    nextBtnText: 'Siguiente', prevBtnText: 'Atrás', doneBtnText: 'Entendido',
-                    steps: [
-                        { element: '.system-title', popover: { title: 'Bienvenido a SADE', description: 'Portal centralizado de inteligencia económica.' } },
-                        { element: '#tour-search', popover: { title: 'Centro de Análisis', description: 'Buscador global de indicadores.' } },
-                        { element: '.position-left-1', popover: { title: 'Ingresos', description: 'Acceso al Sistema de Análisis de Ingresos Públicos (SAIP).' } },
-                        { element: '.position-left-3', popover: { title: 'NUEVO: Renuncias', description: 'Módulo de análisis de Renuncias Recaudatorias.' } }
-                    ],
-                    onDestroyStarted: () => {
-                         localStorage.setItem('tourVistoV4', 'true');
-                         driverObj.destroy();
-                    }
-                });
-                driverObj.drive();
-            }
-        }
-
-        // --- 5. API BANXICO (AUTOMATIZACIÓN) ---
+        // --- 5. Conexión API Banxico (Datos Reales) ---
         async function obtenerDatosBanxico() {
-            // *** IMPORTANTE: PEGA AQUÍ TU TOKEN DE BANXICO ***
-            const token = 'TU_TOKEN_DE_BANXICO_VA_AQUI'; 
-            
-            // Si no tienes token aún, esta función no hará nada para evitar errores
-            if (token === 'TU_TOKEN_DE_BANXICO_VA_AQUI') return;
+            const token = 'TU_TOKEN_AQUI'; // <--- No olvides poner tu token si lo tienes
+            if (token === 'TU_TOKEN_AQUI') return; // Si no hay token, usa los datos predeterminados del HTML
 
-            // Series: Dólar(SF43718), Tasa(SF61745), INPC(SP74660), Mezcla(SF43773)
             const series = 'SF43718,SF61745,SP74660,SF43773';
             const url = `https://www.banxico.org.mx/SieAPIRest/service/v1/series/${series}/datos/oportuno?token=${token}&mediaType=json`;
 
@@ -249,24 +295,22 @@
 
                 seriesData.forEach(serie => {
                     const valor = serie.datos[0].dato;
-                    // Actualizamos tanto el dato principal como el repetido del ticker (-r)
                     if (serie.idSerie === 'SF43718') { // Dólar
                         document.getElementById('dato-dolar').innerText = '$' + Number(valor).toFixed(2);
                     } else if (serie.idSerie === 'SF61745') { // Tasa
                         document.getElementById('dato-tasa').innerText = valor + '%';
                     } else if (serie.idSerie === 'SP74660') { // INPC
                         document.getElementById('dato-inpc').innerText = valor + '%';
-                        if(document.getElementById('dato-inpc-r')) document.getElementById('dato-inpc-r').innerText = valor + '%';
                     } else if (serie.idSerie === 'SF43773') { // Mezcla
                         document.getElementById('dato-mezcla').innerText = '$' + valor;
-                        if(document.getElementById('dato-mezcla-r')) document.getElementById('dato-mezcla-r').innerText = '$' + valor;
                     }
                 });
             } catch (error) {
-                console.log('Usando datos precargados (Error API o Token faltante)');
+                console.log('Error API Banxico: Usando datos cacheados.');
             }
         }
     </script>
 </body>
 </html>
+
 
