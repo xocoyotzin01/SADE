@@ -1,174 +1,66 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sistema Integral de Información</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
-    
-    <link rel="stylesheet" href="styles_hub.css">
-</head>
-<body>
-
-    <div id="splash-screen">
-        <div class="splash-content">
-            <video class="splash-video" autoplay muted playsinline loop>
-                <source src="video_intro.mp4" type="video/mp4">
-                <img src="central_icon.png" alt="Sistema H&P" style="max-width: 150px;">
-            </video>
-            
-            <h2 class="fade-in-text">SISTEMA AUTOMATIZADO DE DATOS ECONÓMICOS (SADE)</h2>
-            
-            <div class="loading-bar"></div>
-        </div>
-    </div>
-
-    <header class="top-bar">
-        <div class="top-icons">
-            <i class="fas fa-circle-nodes"></i>
-        </div>
-        <div class="system-title">SISTEMA AUTOMATICO DE DATOS ECONÓMICOS (SADE)</div>
-        <div class="accessibility-controls">
-            <button onclick="changeFontSize(-1)" title="Disminuir letra" aria-label="Reducir texto">A-</button>
-            <button onclick="changeFontSize(1)" title="Aumentar letra" aria-label="Aumentar texto">A+</button>
-        </div>
-    </header>
-
-    <div class="ticker-wrap">
-        <div class="ticker">
-            <div class="ticker-item">🛢️ Mezcla Mx: $57.15</div>
-            <div class="ticker-item">📉 INPC Anual: 3.69%</div>
-            <div class="ticker-item">💵 Dólar FIX: $17.60</div>
-            <div class="ticker-item">🏛️ Tasa Objetivo: 7.0%</div>
-            <div class="ticker-item">⛽ Estímulo Diesel: 0.0%</div>
-            <div class="ticker-item">🛢️ Mezcla Mx: $57.15</div>
-            <div class="ticker-item">📉 INPC Anual: 3.69%</div>
-        </div>
-    </div>
-
-    <main class="hub-container" id="main-hub">
+<main class="hub-container" id="main-hub">
         
         <div class="center-search-container" id="tour-search">
             <img src="central_icon.png" alt="Análisis e Integración" class="center-main-icon">
-            
             <div class="search-box">
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" id="globalSearch" placeholder="Buscar indicador, rubro o concepto..." autocomplete="off">
             </div>
         </div>
 
-        <a href="https://xocoyotzin01.github.io/SAIP/" class="hub-module top-left" id="tour-ingresos">
+        <a href="https://xocoyotzin01.github.io/SAIP/" class="hub-module position-left-1" id="tour-ingresos">
             <div class="badge-fresh">ENE 2026</div>
             <div class="icon-circle"><i class="fas fa-coins"></i></div>
             <div class="module-text">
-                <h3>SISTEMA DE ANÁLISIS DE INGRESOS PRESUPUESTARIOS (SAIP) </h3>
-                <div class="tooltip glass">Recaudación tributaria y petrolera. Comparativos y series históricas.</div>
+                <h3>SISTEMA DE INGRESOS</h3>
+                <div class="tooltip glass">Recaudación tributaria y petrolera. Comparativos.</div>
             </div>
-            <i class="fas fa-info-circle mobile-info-icon"></i>
         </a>
 
-        <a href="#" class="hub-module top-right" id="tour-enigh">
+        <a href="https://xocoyotzin01.github.io/SAGP/" class="hub-module position-left-2" id="tour-gasto">
+            <div class="badge-fresh">ENE 2026</div>
+            <div class="icon-circle"><i class="fas fa-file-invoice-dollar"></i></div>
+            <div class="module-text">
+                <h3>BASE DE GASTO</h3>
+                <div class="tooltip glass">Análisis del ejercicio del gasto público.</div>
+            </div>
+        </a>
+
+        <a href="#" class="hub-module position-left-3">
+            <div class="badge-pending">EN PROCESO</div>
+            <div class="icon-circle"><i class="fas fa-magnifying-glass-chart"></i></div>
+            <div class="module-text">
+                <h3>RENUNCIAS RECAUDATORIAS</h3>
+                <div class="tooltip glass">Análisis del Presupuesto de Gastos Fiscales.</div>
+            </div>
+        </a>
+
+
+        <a href="#" class="hub-module position-right-1" id="tour-enigh">
             <div class="badge-pending">PENDIENTE</div>
             <div class="icon-circle"><i class="fas fa-people-roof"></i></div>
             <div class="module-text">
                 <h3>BASE ENIGH</h3>
-                <div class="tooltip glass">Encuesta Nacional de Ingresos y Gastos de los Hogares.</div>
+                <div class="tooltip glass">Encuesta Nacional de Ingresos y Gastos.</div>
             </div>
-            <i class="fas fa-info-circle mobile-info-icon"></i>
         </a>
 
-        <a href="https://xocoyotzin01.github.io/SAGP/" class="hub-module bottom-left" id="tour-gasto">
-            <div class="badge-pending">PENDIENTE</div> 
-            <div class="icon-circle"><i class="fas fa-file-invoice-dollar"></i></div>
-            <div class="module-text">
-                <h3>SISTEMA DE ANÁLISIS DE GASTO PRESUPUESTARIO (SAGP) </h3>
-                <div class="tooltip glass">Análisis del ejercicio del gasto público por Ramo y Función.</div>
-            </div>
-            <i class="fas fa-info-circle mobile-info-icon"></i>
-        </a>
-
-        <a href="#" class="hub-module bottom-right" id="tour-enoe">
+        <a href="#" class="hub-module position-right-2" id="tour-enoe">
             <div class="badge-pending">PENDIENTE</div>
             <div class="icon-circle"><i class="fas fa-briefcase"></i></div>
             <div class="module-text">
                 <h3>BASE ENOE</h3>
-                <div class="tooltip glass">Mercado laboral: Desocupación, informalidad y salarios.</div>
+                <div class="tooltip glass">Mercado laboral y ocupación.</div>
             </div>
-            <i class="fas fa-info-circle mobile-info-icon"></i>
+        </a>
+
+        <a href="#" class="hub-module position-right-3">
+            <div class="badge-pending">EN PROCESO</div>
+            <div class="icon-circle"><i class="fas fa-map-location-dot"></i></div>
+            <div class="module-text">
+                <h3>INFO. ECONÓMICA ESTATAL</h3>
+                <div class="tooltip glass">Indicadores por Entidad Federativa.</div>
+            </div>
         </a>
 
     </main>
-    
-    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
-    <script>
-        // --- 1. Lógica del Splash Screen (Tiempo aumentado para ver el video) ---
-        window.addEventListener('load', () => {
-            // Esperamos 4 segundos para que se vea el video y la animación del texto
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                    iniciarTour();
-                }, 800); // Transición de desvanecimiento un poco más lenta
-            }, 4000); 
-        });
-
-        // --- 2. Accesibilidad ---
-        let currentFontSize = 16;
-        function changeFontSize(change) {
-            currentFontSize += change;
-            if(currentFontSize < 14) currentFontSize = 14;
-            if(currentFontSize > 22) currentFontSize = 22;
-            document.documentElement.style.fontSize = currentFontSize + 'px';
-        }
-
-        // --- 3. Búsqueda Rápida ---
-        document.getElementById('globalSearch').addEventListener('keyup', function(event) {
-            if (event.key === 'Enter') {
-                const term = this.value.toLowerCase();
-                if(term.includes('isr') || term.includes('petrol')) {
-                    window.location.href = 'modulos/ingresos/index.html';
-                } else {
-                    alert(`Buscando "${this.value}"... (Demo)`);
-                }
-            }
-        });
-
-        // --- 4. Vibración ---
-        document.querySelectorAll('.hub-module').forEach(module => {
-            module.addEventListener('click', () => {
-                if (navigator.vibrate) navigator.vibrate(30);
-            });
-        });
-
-        // --- 5. Tour ---
-        function iniciarTour() {
-            if (!localStorage.getItem('tourVistoV3')) { // Cambié la key para que te vuelva a salir
-                const driver = window.driver.js.driver;
-                const driverObj = driver({
-                    showProgress: true,
-                    nextBtnText: 'Siguiente', prevBtnText: 'Atrás', doneBtnText: 'Entendido',
-                    steps: [
-                        { element: '.system-title', popover: { title: 'Bienvenido', description: 'Portal centralizado de inteligencia económica.' } },
-                        { element: '#tour-search', popover: { title: 'Centro de Análisis', description: 'Utilice el buscador para encontrar indicadores rápidamente.' } },
-                        { element: '#tour-ingresos', popover: { title: 'Módulos Temáticos', description: 'Acceda a las bases de datos específicas en cada esquina.' } }
-                    ],
-                    onDestroyStarted: () => {
-                         localStorage.setItem('tourVistoV3', 'true');
-                         driverObj.destroy();
-                    }
-                });
-                driverObj.drive();
-            }
-        }
-    </script>
-</body>
-
-</html>
-
-
