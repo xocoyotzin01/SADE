@@ -1,13 +1,13 @@
 /* =========================================
-   1. CONFIGURACIÓN GENERAL Y FUENTES
+   1. TEMA CLARO (ESTILO LIMPIO)
    ========================================= */
 :root {
-    --primary-color: #0d1b2a;
-    --accent-color: #00b4d8;
-    --text-color: #e0e1dd;
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --hover-bg: rgba(0, 180, 216, 0.15);
+    --bg-color: #f4f7f6;         /* Fondo gris muy claro/blanco */
+    --card-bg: #ffffff;          /* Tarjetas blancas */
+    --text-main: #2c3e50;        /* Texto oscuro para lectura */
+    --text-sub: #7f8c8d;         /* Texto secundario gris */
+    --accent-color: #2a9d8f;     /* Verde/Turquesa (como en tu imagen) */
+    --shadow-soft: 0 10px 25px rgba(0,0,0,0.05); /* Sombra suave */
 }
 
 * {
@@ -18,21 +18,22 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: var(--primary-color);
-    background-image: radial-gradient(circle at 50% 50%, #1b263b 0%, #0d1b2a 100%);
-    color: var(--text-color);
+    background-color: var(--bg-color);
+    /* ELIMINAMOS el degradado negro anterior */
+    background-image: none; 
+    color: var(--text-main);
     height: 100vh;
-    overflow: hidden; /* Evita scroll en escritorio */
+    overflow: hidden; 
 }
 
 /* =========================================
-   2. SPLASH SCREEN (INTRODUCCIÓN)
+   2. CORRECCIÓN DE PANTALLA DE CARGA
    ========================================= */
 #splash-screen {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background-color: #000;
+    background-color: #ffffff; /* Fondo blanco para que no se vea negro al inicio */
     z-index: 9999;
     display: flex;
     justify-content: center;
@@ -40,333 +41,158 @@ body {
     transition: opacity 0.8s ease-out;
 }
 
-.splash-content {
-    text-align: center;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.splash-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.6;
-}
-
-/* Texto sobre el video */
-.splash-content img {
-    position: absolute;
-    top: 40%; left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-}
-
+.splash-content { text-align: center; position: relative; width: 100%; }
+.splash-video { width: 100%; height: 100%; object-fit: cover; opacity: 1; } /* Opacidad al 100 */
 .fade-in-text {
-    position: absolute;
-    top: 60%; left: 50%;
+    position: absolute; top: 60%; left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    color: white;
-    text-shadow: 0 0 20px rgba(0,180,216, 0.8);
+    font-size: 2rem; color: #333; /* Texto oscuro */
     animation: fadeInUp 2s ease forwards;
-    width: 90%;
 }
-
 .loading-bar {
-    position: absolute;
-    bottom: 0; left: 0;
-    height: 4px;
+    position: absolute; bottom: 0; left: 0; height: 4px;
     background: var(--accent-color);
     animation: loadBar 4s linear forwards;
 }
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translate(-50%, -30%); }
-    to { opacity: 1; transform: translate(-50%, -50%); }
-}
-
-@keyframes loadBar {
-    0% { width: 0%; }
-    100% { width: 100%; }
-}
+@keyframes fadeInUp { from { opacity: 0; transform: translate(-50%, -30%); } to { opacity: 1; transform: translate(-50%, -50%); } }
+@keyframes loadBar { 0% { width: 0%; } 100% { width: 100%; } }
 
 /* =========================================
-   3. BARRA SUPERIOR (HEADER)
+   3. HEADER Y TICKER (BARRA SUPERIOR)
    ========================================= */
 .top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
     padding: 10px 20px;
-    background: rgba(13, 27, 42, 0.9);
-    border-bottom: 1px solid var(--glass-border);
+    background: #ffffff; /* Blanco */
+    border-bottom: 1px solid #eee;
     height: 60px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
-
-.system-title {
-    font-weight: 600;
-    letter-spacing: 1px;
-    font-size: 1.1rem;
-    color: var(--accent-color);
-}
-
+.system-title { font-weight: 700; color: var(--accent-color); font-size: 1.1rem; }
 .accessibility-controls button {
-    background: none;
-    border: 1px solid var(--glass-border);
-    color: white;
-    padding: 5px 10px;
-    margin-left: 5px;
-    cursor: pointer;
-    border-radius: 5px;
+    background: #f1f1f1; border: none; color: #333;
+    padding: 5px 10px; border-radius: 5px; cursor: pointer;
 }
 
-/* =========================================
-   4. TICKER (CINTILLO FINANCIERO)
-   ========================================= */
 .ticker-wrap {
-    width: 100%;
-    overflow: hidden;
-    background-color: #000;
-    border-bottom: 1px solid #333;
-    height: 40px;
-    display: flex;
-    align-items: center;
+    background-color: #263238; /* Cintillo oscuro para contraste */
+    height: 40px; display: flex; align-items: center; overflow: hidden;
 }
-
-.ticker {
-    display: flex;
-    white-space: nowrap;
-    animation: ticker-scroll 30s linear infinite;
-}
-
-.ticker-item {
-    margin-right: 50px;
-    font-size: 0.95rem;
-    color: #e0e1dd;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* Colores para indicadores */
-.ticker-item span { font-weight: bold; color: var(--accent-color); }
-
-@keyframes ticker-scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); } /* Ajustado para loop infinito */
-}
+.ticker { display: flex; animation: ticker-scroll 30s linear infinite; white-space: nowrap; }
+.ticker-item { margin-right: 50px; color: #fff; font-size: 0.9rem; }
+.ticker-item span { color: #4db6ac; font-weight: bold; }
+@keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
 /* =========================================
-   5. HUB PRINCIPAL (GRID 3x3)
+   4. GRID PRINCIPAL (ESTRUCTURA)
    ========================================= */
 .hub-container {
     display: grid;
-    grid-template-columns: 1fr 380px 1fr; /* Hacemos el centro un poco más ancho */
+    /* Columna Izq - Centro (Ancho) - Columna Der */
+    grid-template-columns: 1fr 400px 1fr;
     grid-template-rows: repeat(3, 1fr);
-    gap: 100px; /* <--- CAMBIO CLAVE: De 20px a 100px para separar las columnas */
-    height: 80vh;
-    padding: 20px 60px; /* Un poco más de margen a los lados */
-    align-items: center;
+    /* GAP amplio para separar las cajas del centro */
+    gap: 40px 80px; 
+    height: calc(100vh - 100px);
+    padding: 20px 60px;
     position: relative;
-}
-
-/* 2. Forzamos la alineación a la derecha pura en la columna derecha */
-.position-right-1, 
-.position-right-2, 
-.position-right-3 {
-    grid-column: 3;
-    /* Esto asegura que el botón se pegue al borde derecho de la pantalla */
-    justify-self: end; 
-    /* Alineación del contenido interno (icono y texto) */
-    justify-content: flex-end; 
-    text-align: right;
-    width: auto; /* Dejar que el botón tenga el tamaño de su contenido */
-}
-
-/* --- MÓDULOS (TARJETAS) --- */
-.hub-module {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    text-decoration: none;
-    color: white;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    position: relative;
-    height: 85%; /* No llenar toda la celda verticalmente */
-    overflow: hidden;
-}
-
-.hub-module:hover {
-    background: var(--hover-bg);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    border-color: var(--accent-color);
-}
-
-/* Iconos circulares */
-.icon-circle {
-    background: rgba(255,255,255,0.1);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    margin-right: 15px;
-    color: var(--accent-color);
-    flex-shrink: 0;
-}
-
-.module-text h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 5px;
-    letter-spacing: 0.5px;
-}
-
-.tooltip {
-    font-size: 0.75rem;
-    color: #aaa;
-    line-height: 1.2;
-}
-
-/* Badges (Etiquetas) */
-.badge-fresh, .badge-pending {
-    position: absolute;
-    top: 10px; right: 10px;
-    font-size: 0.65rem;
-    padding: 4px 8px;
-    border-radius: 10px;
-    font-weight: bold;
-}
-.badge-fresh { background: #2a9d8f; color: white; }
-.badge-pending { background: #e9c46a; color: #1d3557; }
-
-/* --- POSICIONAMIENTO EN GRID --- */
-
-/* Lado Izquierdo (Alineado a la izquierda) */
-.position-left-1 { grid-column: 1; grid-row: 1; align-self: end; }   /* Arriba */
-.position-left-2 { grid-column: 1; grid-row: 2; align-self: center;} /* Centro */
-.position-left-3 { grid-column: 1; grid-row: 3; align-self: start; } /* Abajo */
-
-/* Lado Derecho (Alineado a la derecha visualmente) */
-.position-right-1 { grid-column: 3; grid-row: 1; align-self: end; flex-direction: row-reverse; text-align: right; }
-.position-right-2 { grid-column: 3; grid-row: 2; align-self: center; flex-direction: row-reverse; text-align: right; }
-.position-right-3 { grid-column: 3; grid-row: 3; align-self: start; flex-direction: row-reverse; text-align: right; }
-
-/* Ajuste de márgenes para el modo espejo (derecha) */
-.position-right-1 .icon-circle, 
-.position-right-2 .icon-circle, 
-.position-right-3 .icon-circle {
-    margin-right: 0;
-    margin-left: 15px;
-}
-
-/* --- BUSCADOR CENTRAL --- */
-.center-search-container {
-    grid-column: 2;
-    grid-row: 1 / 4; /* Ocupa las 3 filas verticalmente */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 5;
-}
-
-.center-main-icon {
-    width: 220px;
-    opacity: 0.8;
-    filter: drop-shadow(0 0 15px rgba(0, 180, 216, 0.4));
-    margin-bottom: 30px;
-    animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-.search-box {
-    position: relative;
-    width: 100%;
-}
-
-.search-box input {
-    width: 100%;
-    padding: 15px 20px 15px 50px;
-    border-radius: 30px;
-    border: 1px solid var(--accent-color);
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-size: 1rem;
-    outline: none;
-    box-shadow: 0 0 15px rgba(0, 180, 216, 0.2);
-}
-
-.search-icon {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--accent-color);
+    max-width: 1600px; margin: 0 auto;
 }
 
 /* =========================================
-   6. RESPONSIVE (MÓVIL)
+   5. TARJETAS (ESTILO UNIFICADO)
    ========================================= */
-@media (max-width: 900px) {
-    body {
-        overflow-y: auto; /* Permitir scroll en móvil */
-        height: auto;
-    }
-
-    .hub-container {
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        height: auto;
-    }
-
-    /* Reordenamos para que el buscador quede arriba */
-    .center-search-container {
-        order: -1; 
-        margin-bottom: 30px;
-    }
-
-    .center-main-icon {
-        width: 150px;
-        margin-bottom: 15px;
-    }
-
-    /* Estilo de lista para los módulos */
-    .hub-module {
-        width: 100%;
-        height: auto;
-        margin-bottom: 15px;
-        flex-direction: row; /* Siempre icono a la izquierda en móvil */
-        text-align: left;
-    }
-
-    /* Resetear estilos especiales de la columna derecha */
-    .position-right-1, .position-right-2, .position-right-3 {
-        flex-direction: row; 
-        text-align: left;
-    }
-
-    .position-right-1 .icon-circle, 
-    .position-right-2 .icon-circle, 
-    .position-right-3 .icon-circle {
-        margin-left: 0;
-        margin-right: 15px;
-    }
+/* AQUI ESTÁ LA SOLUCIÓN DE SIMETRÍA:
+   Todas las tarjetas tienen la misma dirección (row) y alineación (left) */
+.hub-module {
+    display: flex;
+    flex-direction: row !important; /* IMPORTANTE: Siempre horizontal normal */
+    justify-content: flex-start !important; /* Alineado a la izquierda */
+    align-items: center;
+    text-align: left !important;
+    
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 20px; /* Bordes redondeados */
+    text-decoration: none;
+    color: var(--text-main);
+    
+    /* Sombra bonita estilo "tarjeta flotante" */
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0,0,0,0.03);
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 85%; /* Altura uniforme */
 }
 
+.hub-module:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+/* Iconos */
+.icon-circle {
+    background: #e0f2f1; /* Fondo verde muy clarito */
+    color: var(--accent-color);
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 1.5rem;
+    margin-right: 20px !important; /* Espacio a la derecha del icono */
+    margin-left: 0 !important;     /* NUNCA margen a la izquierda */
+    flex-shrink: 0;
+}
+
+.module-text h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 5px; color: #2c3e50; }
+.tooltip { font-size: 0.8rem; color: var(--text-sub); line-height: 1.3; }
+
+/* Badges */
+.badge-fresh { background: #27ae60; color: white; }
+.badge-pending { background: #f39c12; color: white; }
+.badge-fresh, .badge-pending {
+    position: absolute; top: -10px; right: 20px;
+    font-size: 0.7rem; padding: 4px 10px; border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* =========================================
+   6. POSICIONAMIENTO EXACTO
+   ========================================= */
+
+/* LADO IZQUIERDO */
+.position-left-1 { grid-column: 1; grid-row: 1; align-self: end; }
+.position-left-2 { grid-column: 1; grid-row: 2; align-self: center; }
+.position-left-3 { grid-column: 1; grid-row: 3; align-self: start; }
+
+/* LADO DERECHO (CORREGIDO) */
+/* Ya no usamos row-reverse, ahora son idénticos a los de la izquierda */
+.position-right-1 { grid-column: 3; grid-row: 1; align-self: end; }
+.position-right-2 { grid-column: 3; grid-row: 2; align-self: center; }
+.position-right-3 { grid-column: 3; grid-row: 3; align-self: start; }
+
+
+/* =========================================
+   7. BUSCADOR CENTRAL Y MOVIL
+   ========================================= */
+.center-search-container {
+    grid-column: 2; grid-row: 1 / 4;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 5;
+}
+.center-main-icon { width: 250px; margin-bottom: 30px; } /* Icono central grande */
+
+.search-box input {
+    width: 100%; padding: 15px 20px 15px 50px;
+    border-radius: 30px; border: 1px solid #ddd;
+    background: #fff; color: #333;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    outline: none;
+}
+.search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #aaa; }
+
+@media (max-width: 900px) {
+    body { overflow-y: auto; height: auto; background: #f4f7f6; }
+    .hub-container { display: flex; flex-direction: column; padding: 20px; height: auto; gap: 20px; }
+    .center-search-container { order: -1; margin-bottom: 30px; }
+    .hub-module { width: 100%; margin-bottom: 10px; }
+    .badge-fresh, .badge-pending { top: 10px; right: 10px; } /* Ajuste badge móvil */
+}
