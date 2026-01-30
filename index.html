@@ -282,8 +282,8 @@
 
         // --- 5. Conexión API Banxico (Datos Reales) ---
         async function obtenerDatosBanxico() {
-            const token = 'TU_TOKEN_AQUI'; // <--- No olvides poner tu token si lo tienes
-            if (token === 'TU_TOKEN_AQUI') return; // Si no hay token, usa los datos predeterminados del HTML
+            const token = b7b897b8c15725b8d130196a8a9280e6d6c82f6a62e35aa60cc99a83c0769d81; // <--- No olvides poner tu token si lo tienes
+            if (token === b7b897b8c15725b8d130196a8a9280e6d6c82f6a62e35aa60cc99a83c0769d81) return; // Si no hay token, usa los datos predeterminados del HTML
 
             const series = 'SF43718,SF61745,SP74660,SF43773';
             const url = `https://www.banxico.org.mx/SieAPIRest/service/v1/series/${series}/datos/oportuno?token=${token}&mediaType=json`;
@@ -376,6 +376,7 @@
     </script>
 </body>
 </html>
+
 
 
 
