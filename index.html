@@ -310,7 +310,72 @@
             }
         }
     </script>
+
+    <script>
+        // --- 1. Lógica del Splash Screen (Tiempo aumentado para ver el video) ---
+        window.addEventListener('load', () => {
+            // Esperamos 4 segundos para que se vea el video y la animación del texto
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    iniciarTour();
+                }, 800); // Transición de desvanecimiento un poco más lenta
+            }, 4000); 
+        });
+
+        // --- 2. Accesibilidad ---
+        let currentFontSize = 16;
+        function changeFontSize(change) {
+            currentFontSize += change;
+            if(currentFontSize < 14) currentFontSize = 14;
+            if(currentFontSize > 22) currentFontSize = 22;
+            document.documentElement.style.fontSize = currentFontSize + 'px';
+        }
+
+        // --- 3. Búsqueda Rápida ---
+        document.getElementById('globalSearch').addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                const term = this.value.toLowerCase();
+                if(term.includes('isr') || term.includes('petrol')) {
+                    window.location.href = 'modulos/ingresos/index.html';
+                } else {
+                    alert(`Buscando "${this.value}"... (Demo)`);
+                }
+            }
+        });
+
+        // --- 4. Vibración ---
+        document.querySelectorAll('.hub-module').forEach(module => {
+            module.addEventListener('click', () => {
+                if (navigator.vibrate) navigator.vibrate(30);
+            });
+        });
+
+        // --- 5. Tour ---
+        function iniciarTour() {
+            if (!localStorage.getItem('tourVistoV3')) { // Cambié la key para que te vuelva a salir
+                const driver = window.driver.js.driver;
+                const driverObj = driver({
+                    showProgress: true,
+                    nextBtnText: 'Siguiente', prevBtnText: 'Atrás', doneBtnText: 'Entendido',
+                    steps: [
+                        { element: '.system-title', popover: { title: 'Bienvenido', description: 'Portal centralizado de inteligencia económica.' } },
+                        { element: '#tour-search', popover: { title: 'Centro de Análisis', description: 'Utilice el buscador para encontrar indicadores rápidamente.' } },
+                        { element: '#tour-ingresos', popover: { title: 'Módulos Temáticos', description: 'Acceda a las bases de datos específicas en cada esquina.' } }
+                    ],
+                    onDestroyStarted: () => {
+                         localStorage.setItem('tourVistoV3', 'true');
+                         driverObj.destroy();
+                    }
+                });
+                driverObj.drive();
+            }
+        }
+    </script>
 </body>
 </html>
+
 
 
